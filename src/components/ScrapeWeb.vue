@@ -1,9 +1,11 @@
 <template>
-  <div>{{ lowLaptops }}</div>
+  <div>
+    {{ lowLaptops }}
+  </div>
 </template>
 
 <script>
-const cheerio = require("cheerio");
+import * as cheerio from 'cheerio';
 import neweggService from "../services/NeweggServices.js";
 export default {
   props: {},
@@ -13,7 +15,7 @@ export default {
       laptop: {
         title: "",
         image: '',
-        link: `https://newegg.com${this.currentLink}`,
+        link: `${this.currentLink}`,
         price: ''
       }
     };
@@ -25,10 +27,10 @@ export default {
         .then((response) => {
           const html = response.data;
           const $ = cheerio.load(html);
-          this.$("div.item-container").each((_idx, el) => {
+          this.$(".item-cells-wrap border-cells items-grid-view four-cells expulsion-one-cell").each((_idx, el) => {
             const laptops = $(el);
             this.title = laptops
-              .find("span.a-size-base-plus.a-color-base.a-text-normal")
+              .find("div.a.span-item-open-box-italic")
               .text();
             this.image = laptops.find('img.s-image').attr('src')
             this.currentLink = laptops.find('a.a-link-normal.a-text-normal').attr('href')
