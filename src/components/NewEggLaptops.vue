@@ -9,7 +9,7 @@
     <h5 v-text="laptop.title" class="card-title"></h5>
      </div>
      <div class="card-details">
-    <p>Eggs {{ laptop.eggs }}  {{ laptop.reviews }}</p>
+    <p>{{ laptop.eggs }}  {{ laptop.reviews }}</p>
     <span>Price {{ laptop.price }}</span>
   </div>
   </a>
@@ -49,7 +49,6 @@ export default {
                          'reviews': reviews
                      });
                 });
-                console.log(dataArray);
                 this.lowLaptops = dataArray;
             })
             .catch((error) => {

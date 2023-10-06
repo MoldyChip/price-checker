@@ -1,17 +1,20 @@
 <template>
   <div class="home">
-    <newEgg msg="Welcome to Your Vue.js App"/>
+    <newEgg />
+    <amazon />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import newEgg from '@/components/NewEggLaptops.vue'
+import amazon from '@/components/AmazonLaptops.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    newEgg
+    newEgg,
+    amazon
   }
 }
 </script>
