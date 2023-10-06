@@ -3,7 +3,7 @@
     <h1>NewEgg's Lowest Gaming Laptops</h1>
     <div class="card-container">
   <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
-    <a class="anchor-card" :href='laptop.link'>
+    <a class="anchor-card" :href="'https://www.newegg.com' + laptop.link">
       <div class="card-content">
     <img class="laptop-image" :src='laptop.image' alt="laptop image" />
     <h5 v-text="laptop.title" class="card-title"></h5>
@@ -29,9 +29,11 @@ export default {
     },
     methods: {
          async fetchLowLaptops() {
-             await neweggServices.listLowLaptops().then((response) => {
+             try { 
+              const response = await neweggServices.listLowLaptops();
                 let html = response.data;
                 let $ = cheerio.load(html);
+                console.log(html);
                 const dataArray = [];
                 $('div.item-cell div.item-container').each(function() {
                     const image = $(this).find('img').attr('src');
@@ -50,8 +52,7 @@ export default {
                      });
                 });
                 this.lowLaptops = dataArray.slice(0,5);
-            })
-            .catch((error) => {
+            } catch (error) {
           if (error.response) {
             // error.response exists
             // Request was made, but response has error status (4xx or 5xx)
@@ -66,11 +67,10 @@ export default {
             // Neither error.response and error.request exist
             // Request was *not* made
             console.log("Error getting laptops: make request");
-          }
-        });
+          }}
         }
     },
-   async created() {
+    async created() {
        await this.fetchLowLaptops();
     }
 }

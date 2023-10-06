@@ -3,7 +3,7 @@
     <h1>Amazon's Lowest Gaming Laptops</h1>
     <div class="card-container">
   <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
-    <a class="anchor-card" :href='laptop.link'>
+    <a class="anchor-card" :href="'https://www.amazon.com' + laptop.link">
       <div class="card-content">
     <img class="laptop-image" :src='laptop.image' alt="laptop image" />
     <h5 v-text="laptop.title" class="card-title"></h5>
@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         async fetchLowLaptops() {
-            await amazonServices.listLowLaptops().then((response) => {
+           try { const response = await amazonServices.listLowLaptops();
                 let html = response.data;
                 let $ = cheerio.load(html);
                 const dataArray = []; //will not work if this.lowLaptops is pushed
@@ -50,8 +50,7 @@ export default {
                     });
                 });
                 this.lowLaptops = dataArray.slice(0,5);
-            })
-            .catch((error) => {
+              } catch(error) {
           if (error.response) {
             // error.response exists
             // Request was made, but response has error status (4xx or 5xx)
@@ -67,7 +66,7 @@ export default {
             // Request was *not* made
             console.log("Error getting laptops: make request");
           }
-        });
+        }
         }
     },
     async created() {

@@ -2,7 +2,7 @@
   <div class="home">
     <newEgg />
     <amazon />
-    <b-h-laptops />
+    <bestbuy />
   </div>
 </template>
 
@@ -10,14 +10,14 @@
 // @ is an alias to /src
 import newEgg from '@/components/NewEggLaptops.vue'
 import amazon from '@/components/AmazonLaptops.vue'
-import BHLaptops from '@/components/B&HLaptops.vue'
+import bestbuy from '@/components/BestBuyLaptops.vue'
 
 export default {
   name: 'HomeView',
   components: {
     newEgg,
     amazon,
-    BHLaptops
+    bestbuy
   }
 }
 </script>
