@@ -49,7 +49,7 @@ export default {
                          'reviews': reviews
                      });
                 });
-                this.lowLaptops = dataArray;
+                this.lowLaptops = dataArray.slice(0,5);
             })
             .catch((error) => {
           if (error.response) {
@@ -91,12 +91,12 @@ export default {
 }
 .card-container {
   display: flex;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  justify-content: center; /* Center the content horizontally */
-  align-items: flex-start; /* Align items to the top of the container */
+  flex-wrap: wrap; 
+  justify-content: center;
+  align-items: flex-start;
 }
 .card-content {
-  margin-bottom: 10px; /* Add space between image and title */
+  margin-bottom: 10px;
 }
 
 .card-details {

@@ -1,6 +1,20 @@
 <template>
     <div class="b&h-container">
-  
+    <h1>B&H's Lowest Gaming Laptops</h1>
+    <div class="card-container">
+  <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
+    <a class="anchor-card" :href='laptop.link'>
+      <div class="card-content">
+    <img class="laptop-image" :src='laptop.image' alt="laptop image" />
+    <h5 v-text="laptop.title" class="card-title"></h5>
+     </div>
+     <div class="card-details">
+    <p>{{ laptop.stars }}  {{ laptop.reviews }}</p>
+    <span>Price {{ laptop.price }}</span>
+  </div>
+  </a>
+  </div>
+</div>
     </div>
   </template>
   
@@ -20,7 +34,7 @@
                   let html = response.data;
                   let $ = cheerio.load(html);
              //     const dataArray = [];
-                  console.log($('div.sg-col-20-of-24 s-result-item s-asin sg-col-0-of-12 sg-col-16-of-20 sg-col s-widget-spacing-small sg-col-12-of-16'))
+                  console.log($('div.product_UCJ1nUFwhh'))
               })
           }
       },
@@ -31,5 +45,36 @@
   </script>
   
   <style scoped>
-  
+  .laptop-card {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  align-items: center;
+  margin: 10px;
+}
+.anchor-card {
+  text-decoration: none;
+  text-align: center;
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+.card-content {
+  margin-bottom: 10px;
+}
+
+.card-details {
+  text-align: center;
+}
+.card-title {
+  width: 200px;
+}
+img {
+  height: 100px;
+  max-width: 100%;
+  width: 100%;
+}
   </style>
