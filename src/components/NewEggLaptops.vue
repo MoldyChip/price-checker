@@ -33,7 +33,6 @@ export default {
               const response = await neweggServices.listLowLaptops();
                 let html = response.data;
                 let $ = cheerio.load(html);
-                console.log(html);
                 const dataArray = [];
                 $('div.item-cell div.item-container').each(function() {
                     const image = $(this).find('img').attr('src');
@@ -84,6 +83,10 @@ export default {
   width: 200px;
   align-items: center;
   margin: 10px;
+  box-shadow: 0 4px 8px 0 #000000;
+  transition: 0.3s;
+  background-color: rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
 }
 .anchor-card {
   text-decoration: none;

@@ -2,7 +2,7 @@
     <div class="bestbuy-container">
     <h1>BestBuy's Lowest Gaming Laptops</h1>
     <div class="card-container">
-  <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
+  <div class="laptop-card" v-for="(laptop, index) in filteredLaptops.slice(0,5)" :key="index">
     <a class="anchor-card" :href="'https://www.bestbuy.com' + laptop.link">
       <div class="card-content">
     <img class="laptop-image" :src='laptop.image' alt="laptop image" />
@@ -24,15 +24,21 @@
   export default {
       data() {
           return {
-              lowLaptops: []
+              lowLaptops: [],
+              lowLaptops2: [],
           }
       },
-
+      computed: {
+        filteredLaptops() {
+          const combinedLaptops = this.lowLaptops.concat(this.lowLaptops2);
+          const filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.image);
+          return filteredArray
+        }
+      },
       methods: {
          async fetchLowLaptops() {
             try { 
               const response = await bestBuyServices.listLowLaptops();
-                  console.log('success in fetching link');
                   let html = response.data;
                   let $ = cheerio.load(html);
                   const dataArray = [];
@@ -40,7 +46,7 @@
                     const title = $(this).find('h4.sku-title a').text();
                     const image = $(this).find('img.product-image ').attr('src');
                     const link = $(this).find('a.image-link').attr('href');
-                    const price = $(this).find('div.priceView-hero-price.priceView-customer-price').text();
+                    const price = $(this).find('div.priceView-hero-price.priceView-customer-price > span').text();
                     const stars = $(this).find('p.visually-hidden').text();
 
                     dataArray.push({
@@ -51,8 +57,7 @@
                       'stars': stars,
                     })
                   });
-                  console.log(dataArray);
-                  this.lowLaptops = dataArray.slice(0,5);
+                  this.lowLaptops = dataArray;
               }
           catch(error) {
             if (error.response) {
@@ -70,6 +75,28 @@
             // Request was *not* made
             console.log("Error getting laptops: make request");
           }}
+          {
+            const response = await bestBuyServices.listPage2();
+                  let html = response.data;
+                  let $ = cheerio.load(html);
+                  const dataArray = [];
+                  $('ol.sku-item-list li.sku-item').each(function() {
+                    const title = $(this).find('h4.sku-title a').text();
+                    const image = $(this).find('img.product-image ').attr('src');
+                    const link = $(this).find('a.image-link').attr('href');
+                    const price = $(this).find('div.priceView-hero-price.priceView-customer-price > span').text();
+                    const stars = $(this).find('p.visually-hidden').text();
+
+                    dataArray.push({
+                      'title': title,
+                      'image': image,
+                      'link': link,
+                      'price':price,
+                      'stars': stars,
+                    })
+                  });
+                  this.lowLaptops2 = dataArray;
+          }
           }
       },
       async created() {
@@ -85,6 +112,10 @@
   width: 200px;
   align-items: center;
   margin: 10px;
+  box-shadow: 0 4px 8px 0 #000000;
+  transition: 0.3s;
+  background-color: rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
 }
 .anchor-card {
   text-decoration: none;
