@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "TOx8HAuJvxU7u7O4VdzUSyn46V1XkES9dWQIb5c1NS+BkRP75WAV/4i6sBJ09AxcxGqtvgoVLAmnJ/dsr/BJ4A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\Laptop_Backend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\moldy\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\moldy\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\moldy\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\moldy\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\moldy\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\moldy\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
