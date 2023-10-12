@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\Laptop_Backend.csproj": {}
+    "C:\\GitRepo\\personal-projects\\price-checker\\dotnet\\Laptop_Backend\\Laptop_Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\Laptop_Backend.csproj": {
+    "C:\\GitRepo\\personal-projects\\price-checker\\dotnet\\Laptop_Backend\\Laptop_Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\Laptop_Backend.csproj",
+        "projectUniqueName": "C:\\GitRepo\\personal-projects\\price-checker\\dotnet\\Laptop_Backend\\Laptop_Backend.csproj",
         "projectName": "Laptop_Backend",
-        "projectPath": "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\Laptop_Backend.csproj",
+        "projectPath": "C:\\GitRepo\\personal-projects\\price-checker\\dotnet\\Laptop_Backend\\Laptop_Backend.csproj",
         "packagesPath": "C:\\Users\\moldy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\moldy\\source\\repos\\Laptop_Backend\\Laptop_Backend\\obj\\",
+        "outputPath": "C:\\GitRepo\\personal-projects\\price-checker\\dotnet\\Laptop_Backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -45,6 +45,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"

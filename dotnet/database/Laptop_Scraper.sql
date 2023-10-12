@@ -16,33 +16,36 @@ GO
 
 --create tables
 CREATE TABLE amazon (
-	company_id int IDENTITY(1,1) NOT NULL,
+	laptop_id int IDENTITY(1,1) NOT NULL,
 	title varchar(50) NOT NULL,
 	image_url varchar(MAX) NOT NULL,
 	link varchar(MAX) NOT NULL,
 	price decimal(10,2) NOT NULL,
 	stars varchar(50) NOT NULL,
 	reviews varchar(50) NULL,
-	CONSTRAINT PK_amazon PRIMARY KEY (company_id)
+	date_pulled DATE NOT NULL,
+	CONSTRAINT PK_amazon PRIMARY KEY (laptop_id)
 )
 
 CREATE TABLE newegg (
-	company_id int IDENTITY(2,1) NOT NULL,
+	laptop_id int IDENTITY(1,1) NOT NULL,
 	title varchar(50) NOT NULL,
 	image_url varchar(MAX) NOT NULL,
 	link varchar(MAX) NOT NULL,
 	price decimal(10,2) NOT NULL,
 	stars varchar(50) NOT NULL,
-	CONSTRAINT PK_newegg PRIMARY KEY (company_id)
+	date_pulled DATE NOT NULL,
+	CONSTRAINT PK_newegg PRIMARY KEY (laptop_id)
 )
 
 CREATE TABLE bestbuy (
-	company_id int IDENTITY(3,1) NOT NULL,
+	laptop_id int IDENTITY(1,1) NOT NULL,
 	title varchar(50) NOT NULL,
 	image_url varchar(MAX) NOT NULL,
 	link varchar(MAX) NOT NULL,
 	price decimal(10,2) NOT NULL,
 	stars varchar(50) NOT NULL,
 	reviews varchar(50) NULL,
-	CONSTRAINT PK_bestbuy PRIMARY KEY (company_id)
+	date_pulled DATE NOT NULL,
+	CONSTRAINT PK_bestbuy PRIMARY KEY (laptop_id)
 )
