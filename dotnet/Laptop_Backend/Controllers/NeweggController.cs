@@ -1,6 +1,5 @@
 ﻿using Laptop_Backend.DAO.Interfaces;
 using Laptop_Backend.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Laptop_Backend.Controllers
@@ -16,16 +15,25 @@ namespace Laptop_Backend.Controllers
             this.neweggDao = neweggDao;
         }
 
-        [HttpGet()]
-        public ActionResult<List<Newegg>> ListNewegg() 
+        [HttpGet("newegg")]
+        public ActionResult<List<Newegg>> ListLaptops() 
         {
-            return Ok(neweggDao.ListNewegg());
+            return Ok(neweggDao.ListLaptops());
         }
 
         [HttpPost()]
         public ActionResult<Newegg> AddLaptop(Newegg laptop) 
         {
-            Newegg newLaptop = neweggDao.AddLaptop();
+            Newegg newLaptop = neweggDao.AddLaptop(laptop);
+
+            if (newLaptop == null || newLaptop.Id == 0)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Ok(newLaptop);
+            }
         }
     }
 }

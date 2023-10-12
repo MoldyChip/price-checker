@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
+﻿using Laptop_Backend.DAO.Interfaces;
+using Laptop_Backend.DAO;
 
 namespace Laptop_Backend
 {
@@ -34,6 +29,9 @@ namespace Laptop_Backend
             string connectionString = Configuration.GetConnectionString("Project");
 
             // Dependency Injection configuration
+            services.AddTransient<IAmazonDao>(m => new AmazonSqlDao(connectionString));
+            services.AddTransient<IBestbuyDao>(m => new BestbuySqlDao(connectionString));
+            services.AddTransient<INeweggDao>(m => new NeweggSqlDao(connectionString));
 
         }
 
