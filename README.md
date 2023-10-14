@@ -1,5 +1,5 @@
 # price-checker
-
+Using Vue3 and Cheerio to web scrape retail sites. Currently shows the top 5 lowest gaming laptops from amazon, bestbuy, & newegg. Currently using a node server to deal with CORS.
 ## Project setup
 ```
 npm install
