@@ -14,7 +14,7 @@ namespace Laptop_Backend.Controllers
             this.amazonDao = amazonDao;
         }
 
-        [HttpGet("amazon")]
+        [HttpGet()]
         public ActionResult<List<Amazon>> ListLaptops()
         {
             return Ok(amazonDao.ListLaptops());

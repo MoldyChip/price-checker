@@ -7,5 +7,11 @@ export default {
             'Access-Control-Allow-Origin': '*',
           },
         });
-    }
+    },
+    addLaptops(laptops) {
+        return axios.post("/newegg", laptops);
+      },
+      getlaptops() {
+        return axios.get("/newegg");
+      }
 }

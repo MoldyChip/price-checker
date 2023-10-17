@@ -2,6 +2,7 @@
 using Laptop_Backend.DAO.Interfaces;
 using Microsoft.Data.SqlClient;
 using Laptop_Backend.Exceptions;
+using System.Net;
 
 namespace Laptop_Backend.DAO
 {
@@ -10,7 +11,8 @@ namespace Laptop_Backend.DAO
         private readonly string connectionString = "";
         private readonly string sqlGetList = "SELECT TOP 5 * FROM amazon ORDER BY date_pulled DESC";
         private readonly string sqlAddLaptops = "INSERT INTO amazon (company_name, title, image_url, link, price, stars, reviews, date_pulled) " +
-            "VALUES ('amazon', @title, @image_url, @link, @price, @stars, @reviews, @date_pulled)";
+            "OUTPUT INSERTED.laptop_id " +
+            "VALUES (@company_name, @title, @image_url, @link, @price, @stars, @reviews, @date_pulled)";
 
         public AmazonSqlDao(string connectionString)
         {
@@ -23,6 +25,8 @@ namespace Laptop_Backend.DAO
 
             try
             {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
@@ -55,8 +59,9 @@ namespace Laptop_Backend.DAO
                     conn.Open();
                     using (SqlCommand cmd= new SqlCommand(sqlAddLaptops, conn))
                     {
+                        cmd.Parameters.AddWithValue("@company_name", "amazon");
                         cmd.Parameters.AddWithValue("@title", laptop.Title);
-                        cmd.Parameters.AddWithValue("@image_url", laptop.Title);
+                        cmd.Parameters.AddWithValue("@image_url", laptop.ImageUrl);
                         cmd.Parameters.AddWithValue("@link", laptop.Link);
                         cmd.Parameters.AddWithValue("@price", laptop.Price);
                         cmd.Parameters.AddWithValue("@stars", laptop.Stars);

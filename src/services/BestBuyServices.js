@@ -14,5 +14,11 @@ export default {
                 'Access-Control-Allow-Origin': '*',
             }
         })
-    }
+    },
+    addLaptops(laptops) {
+        return axios.post("/bestbuy", laptops);
+      },
+      getlaptops() {
+        return axios.get("/bestbuy");
+      }
 }

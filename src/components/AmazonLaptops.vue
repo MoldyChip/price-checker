@@ -25,7 +25,10 @@ export default {
     data() {
         return {
             lowLaptops: [],
-            lowLaptops2: []
+            lowLaptops2: [],
+            filteredArray: [],
+            laptops: [],
+            currentTime: new Date().toJSON()
         }
     },
     computed: {
@@ -36,6 +39,18 @@ export default {
         }
       },
     methods: {
+        getLaptops(){
+          amazonServices.getLaptops().then((response) => {
+            const laptop = response.data;
+            this.laptops.push(...laptop);
+          })
+        },
+        addLaptops() {
+          if(this.filteredArray){
+            console.log(this.filteredArray)
+            amazonServices.addLaptops(this.filteredArray.slice(0,5))
+          }
+        },
         async fetchLowLaptops() {
            try { const response = await amazonServices.listLowLaptops();
                 let html = response.data;
@@ -49,12 +64,13 @@ export default {
                     const stars = $(this).find('span.a-icon-alt').text();
                     const reviews = $(this).find('span.a-size-base.s-underline-text').text();
                     dataArray.push({
-                        'image': image,
                         'title': title,
+                        'imageUrl': image,
                         'link': link,
                         'price': price,
                         'stars': stars,
-                        'reviews': reviews
+                        'reviews': reviews,
+                        'datePulled': new Date().toJSON()
                     });
                 });
                 this.lowLaptops = dataArray.slice(0,5);
@@ -88,15 +104,23 @@ export default {
                     const stars = $(this).find('span.a-icon-alt').text();
                     const reviews = $(this).find('span.a-size-base.s-underline-text').text();
                     dataArray.push({
-                        'image': image,
                         'title': title,
+                        'imageUrl': image,
                         'link': link,
                         'price': price,
                         'stars': stars,
-                        'reviews': reviews
+                        'reviews': reviews,
+                        'datePulled': new Date().toJSON()
                     });
                 });
                   this.lowLaptops2 = dataArray;
+                  const combinedLaptops = this.lowLaptops.concat(this.lowLaptops2);
+                  this.filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.image);
+   //               if(this.filteredArray){
+    //                 this.addLaptops();
+    //              }
+   //               this.getLaptops();
+    //              console.log(this.laptops);
           }
         }
     },
