@@ -2,6 +2,7 @@
 using Laptop_Backend.DAO.Interfaces;
 using Microsoft.Data.SqlClient;
 using Laptop_Backend.Exceptions;
+using System.Net;
 
 namespace Laptop_Backend.DAO
 {
@@ -9,8 +10,9 @@ namespace Laptop_Backend.DAO
     {
         private readonly string connectionString = "";
         private readonly string sqlGetList = "SELECT TOP 5 * FROM newegg ORDER BY date_pulled DESC";
-        private readonly string sqlAddLaptops = "INSERT INTO newegg (company_name, title, image_url, link, price, stars, date_pulled) " +
-            "VALUES ('newegg', @title, @image_url, @link, @price, @stars, @date_pulled)";
+        private readonly string sqlAddLaptops = "INSERT INTO newegg (company_name, title, image_url, link, price, stars, reviews, date_pulled) " +
+            "OUTPUT INSERTED.laptop_id " +
+            "VALUES (@company_name, @title, @image_url, @link, @price, @stars, @reviews, @date_pulled)";
 
         public NeweggSqlDao(string connectionString)
         {
@@ -23,6 +25,8 @@ namespace Laptop_Backend.DAO
 
             try
             {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
@@ -45,24 +49,30 @@ namespace Laptop_Backend.DAO
             }
             return laptops;
         }
-        public Newegg AddLaptop(Newegg laptop)
+        public List<Newegg> AddLaptops(List<Newegg> laptops)
         {
-            laptop.Id = 0;
+            List<Newegg> addedLaptops = new List<Newegg>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand(sqlAddLaptops, conn))
+                    foreach (Newegg laptop in laptops)
                     {
-                        cmd.Parameters.AddWithValue("@title", laptop.Title);
-                        cmd.Parameters.AddWithValue("@image_url", laptop.Title);
-                        cmd.Parameters.AddWithValue("@link", laptop.Link);
-                        cmd.Parameters.AddWithValue("@price", laptop.Price);
-                        cmd.Parameters.AddWithValue("@stars", laptop.Stars);
-                        cmd.Parameters.AddWithValue("@date_pulled", laptop.DatePulled);
+                        using (SqlCommand cmd = new SqlCommand(sqlAddLaptops, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@company_name", "newegg");
+                            cmd.Parameters.AddWithValue("@title", laptop.Title);
+                            cmd.Parameters.AddWithValue("@image_url", laptop.ImageUrl);
+                            cmd.Parameters.AddWithValue("@link", laptop.Link);
+                            cmd.Parameters.AddWithValue("@price", laptop.Price);
+                            cmd.Parameters.AddWithValue("@stars", laptop.Stars);
+                            cmd.Parameters.AddWithValue("@reviews", laptop.Reviews);
+                            cmd.Parameters.AddWithValue("@date_pulled", laptop.DatePulled);
 
-                        laptop.Id = (int)cmd.ExecuteScalar();
+                            laptop.Id = (int)cmd.ExecuteScalar();
+                            addedLaptops.Add(laptop);
+                        }
                     }
                 }
             }
@@ -70,7 +80,7 @@ namespace Laptop_Backend.DAO
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
-            return laptop;
+            return addedLaptops;
         }
         private Newegg MapRowToNewegg(SqlDataReader reader)
         {
@@ -81,6 +91,7 @@ namespace Laptop_Backend.DAO
             laptop.ImageUrl = Convert.ToString(reader["image_url"]);
             laptop.Link = Convert.ToString(reader["link"]);
             laptop.Stars = Convert.ToString(reader["stars"]);
+            laptop.Reviews = Convert.ToString(reader["reviews"]);
             laptop.DatePulled = Convert.ToDateTime(reader["date_pulled"]);
 
             return laptop;

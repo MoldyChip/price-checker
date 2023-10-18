@@ -9,6 +9,5 @@
         public DateTime DatePulled { get; set; }
         public decimal Price { get; set; }
         public string Stars { get; set; }
-        public string Reviews { get; set; }
     }
 }

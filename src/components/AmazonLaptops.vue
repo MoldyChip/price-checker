@@ -2,10 +2,10 @@
   <div class="amazon-container">
     <h1>Amazon's Lowest Gaming Laptops</h1>
     <div class="card-container">
-  <div class="laptop-card" v-for="(laptop, index) in filteredLaptops.slice(0,5)" :key="index">
+  <div class="laptop-card" v-for="(laptop, index) in laptops" :key="index">
     <a class="anchor-card" :href="'https://www.amazon.com' + laptop.link">
       <div class="card-content">
-    <img class="laptop-image" :src='laptop.image' alt="laptop image" />
+    <img class="laptop-image" :src='laptop.imageUrl' alt="laptop image" />
     <h5 v-text="laptop.title" class="card-title"></h5>
      </div>
      <div class="card-details">
@@ -34,21 +34,21 @@ export default {
     computed: {
         filteredLaptops() {
           const combinedLaptops = this.lowLaptops.concat(this.lowLaptops2);
-          const filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.image);
+          const filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.imageUrl);
           return filteredArray
         }
       },
     methods: {
         getLaptops(){
           amazonServices.getLaptops().then((response) => {
-            const laptop = response.data;
-            this.laptops.push(...laptop);
+            const laptop1 = response.data;
+            this.laptops.push(...laptop1);
           })
         },
         addLaptops() {
-          if(this.filteredArray){
+          if(this.filteredArray.length > 0){
             console.log(this.filteredArray)
-            amazonServices.addLaptops(this.filteredArray.slice(0,5))
+            amazonServices.addLaptops(this.filteredArray)
           }
         },
         async fetchLowLaptops() {
@@ -115,12 +115,12 @@ export default {
                 });
                   this.lowLaptops2 = dataArray;
                   const combinedLaptops = this.lowLaptops.concat(this.lowLaptops2);
-                  this.filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.image);
-   //               if(this.filteredArray){
-    //                 this.addLaptops();
-    //              }
-   //               this.getLaptops();
-    //              console.log(this.laptops);
+                  this.filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.imageUrl).slice(0,5);
+                 if(this.filteredArray.length > 0){
+                     this.addLaptops();
+                  }
+                  this.getLaptops();
+                  console.log(this.laptops);
           }
         }
     },

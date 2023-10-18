@@ -14,24 +14,24 @@ namespace Laptop_Backend.Controllers
             this.bestbuyDao = bestbuyDao;
         }
 
-        [HttpGet("bestbuy")]
+        [HttpGet()]
         public ActionResult<List<Amazon>> ListLaptops()
         {
             return Ok(bestbuyDao.ListLaptops());
         }
 
         [HttpPost()]
-        public ActionResult<Bestbuy> AddLaptop(Bestbuy laptop)
+        public ActionResult<List<Bestbuy>> AddLaptops(List<Bestbuy> laptops)
         {
-            Bestbuy newLaptop = bestbuyDao.AddLaptop(laptop);
+            List<Bestbuy> newLaptops = bestbuyDao.AddLaptops(laptops);
 
-            if (newLaptop == null || newLaptop.Id == 0)
+            if (newLaptops == null)
             {
                 return BadRequest();
             }
             else
             {
-                return Ok(newLaptop);
+                return Ok(newLaptops);
             }
         }
     }

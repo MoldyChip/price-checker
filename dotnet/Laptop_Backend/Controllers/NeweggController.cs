@@ -15,24 +15,24 @@ namespace Laptop_Backend.Controllers
             this.neweggDao = neweggDao;
         }
 
-        [HttpGet("newegg")]
+        [HttpGet()]
         public ActionResult<List<Newegg>> ListLaptops() 
         {
             return Ok(neweggDao.ListLaptops());
         }
 
         [HttpPost()]
-        public ActionResult<Newegg> AddLaptop(Newegg laptop) 
+        public ActionResult<List<Newegg>> AddLaptops(List<Newegg> laptops) 
         {
-            Newegg newLaptop = neweggDao.AddLaptop(laptop);
+            List<Newegg> newLaptops = neweggDao.AddLaptops(laptops);
 
-            if (newLaptop == null || newLaptop.Id == 0)
+            if (newLaptops == null)
             {
                 return BadRequest();
             }
             else
             {
-                return Ok(newLaptop);
+                return Ok(newLaptops);
             }
         }
     }

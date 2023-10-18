@@ -21,18 +21,11 @@ namespace Laptop_Backend.Controllers
         }
 
         [HttpPost()]
-        public ActionResult<Amazon> AddLaptop(Amazon laptop)
+        public ActionResult<List<Amazon>> AddLaptops(List<Amazon> laptops)
         {
-            Amazon newLaptop = amazonDao.AddLaptop(laptop);
+            List<Amazon> newLaptops = amazonDao.AddLaptops(laptops);
 
-            if (newLaptop == null || newLaptop.Id == 0)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                return Ok(newLaptop);
-            }
+              return Ok(newLaptops);
         }
     }
 }

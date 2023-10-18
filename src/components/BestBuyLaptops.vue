@@ -55,6 +55,7 @@
                       'link': link,
                       'price':price,
                       'stars': stars,
+                      'datePulled': new Date().toJSON()
                     })
                   });
                   this.lowLaptops = dataArray;

@@ -25,7 +25,7 @@ CREATE TABLE companies (
 CREATE TABLE amazon (
     laptop_id int IDENTITY(1,1) NOT NULL,
     company_name varchar(50) NOT NULL,
-    title varchar(50) NOT NULL,
+    title varchar(MAX) NOT NULL,
     image_url varchar(MAX) NOT NULL,
     link varchar(MAX) NOT NULL,
     price decimal(10,2) NOT NULL,
@@ -39,11 +39,12 @@ CREATE TABLE amazon (
 CREATE TABLE newegg (
     laptop_id int IDENTITY(1,1) NOT NULL,
     company_name varchar(50) NOT NULL,
-    title varchar(50) NOT NULL,
+    title varchar(MAX) NOT NULL,
     image_url varchar(MAX) NOT NULL,
     link varchar(MAX) NOT NULL,
     price decimal(10,2) NOT NULL,
     stars varchar(50) NOT NULL,
+	reviews varchar(50) NULL,
     date_pulled DATE NOT NULL,
     CONSTRAINT PK_newegg PRIMARY KEY (laptop_id),
     CONSTRAINT FK_newegg_companies FOREIGN KEY (company_name) REFERENCES companies (company_name)
@@ -52,12 +53,11 @@ CREATE TABLE newegg (
 CREATE TABLE bestbuy (
     laptop_id int IDENTITY(1,1) NOT NULL,
     company_name varchar(50) NOT NULL,
-    title varchar(50) NOT NULL,
+    title varchar(MAX) NOT NULL,
     image_url varchar(MAX) NOT NULL,
     link varchar(MAX) NOT NULL,
     price decimal(10,2) NOT NULL,
     stars varchar(50) NOT NULL,
-    reviews varchar(50) NULL,
     date_pulled DATE NOT NULL,
     CONSTRAINT PK_bestbuy PRIMARY KEY (laptop_id),
     CONSTRAINT FK_bestbuy_companies FOREIGN KEY (company_name) REFERENCES companies (company_name)

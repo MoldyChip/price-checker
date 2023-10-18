@@ -5,11 +5,11 @@
   <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
     <a class="anchor-card" :href="'https://www.newegg.com' + laptop.link">
       <div class="card-content">
-    <img class="laptop-image" :src='laptop.image' alt="laptop image" />
+    <img class="laptop-image" :src='laptop.imageUrl' alt="laptop image" />
     <h5 v-text="laptop.title" class="card-title"></h5>
      </div>
      <div class="card-details">
-    <p>{{ laptop.eggs }}  {{ laptop.reviews }}</p>
+    <p>{{ laptop.stars }}  {{ laptop.reviews }}</p>
     <span>Price {{ laptop.price }}</span>
   </div>
   </a>
@@ -25,9 +25,22 @@ export default {
     data() {
         return {
             lowLaptops: [],
+            laptops: []
         }
     },
     methods: {
+      getLaptops(){
+          neweggServices.getLaptops().then((response) => {
+            const laptop1 = response.data;
+            this.laptops.push(...laptop1);
+          })
+        },
+        addLaptops() {
+          if(this.lowLaptops.length > 0){
+            console.log(this.lowLaptops)
+            neweggServices.addLaptops(this.lowLaptops)
+          }
+        },
          async fetchLowLaptops() {
              try { 
               const response = await neweggServices.listLowLaptops();
@@ -43,14 +56,18 @@ export default {
                     const reviews = $(this).find('a.item-rating span').text();
                      dataArray.push({
                          'title': title,
-                         'image': image,
+                         'imageUrl': image,
                          'link': link,
                          'price': price,
-                         'eggs': eggs,
-                         'reviews': reviews
+                         'stars': eggs || '',
+                         'reviews': reviews,
+                         'datePulled': new Date().toJSON()
                      });
                 });
                 this.lowLaptops = dataArray.slice(0,5);
+                if(this.lowLaptops.length > 0){
+                 this.addLaptops();
+               }
             } catch (error) {
           if (error.response) {
             // error.response exists
@@ -67,6 +84,8 @@ export default {
             // Request was *not* made
             console.log("Error getting laptops: make request");
           }}
+          this.getLaptops();
+                console.log(this.laptops);
         }
     },
     async created() {

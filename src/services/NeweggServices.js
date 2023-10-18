@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const instance = axios.create({baseURL: 'https://localhost:44388'});
+
 export default {
     listLowLaptops() {
         return axios.get('http://localhost:3000/newEgg',{      
@@ -9,9 +11,9 @@ export default {
         });
     },
     addLaptops(laptops) {
-        return axios.post("/newegg", laptops);
+        return instance.post("/newegg", laptops);
       },
-      getlaptops() {
-        return axios.get("/newegg");
+    getLaptops() {
+        return instance.get("/newegg");
       }
 }

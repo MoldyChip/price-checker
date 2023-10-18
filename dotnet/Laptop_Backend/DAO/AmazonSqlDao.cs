@@ -49,26 +49,30 @@ namespace Laptop_Backend.DAO
             }
             return laptops;
         }
-        public Amazon AddLaptop(Amazon laptop)
+        public List<Amazon> AddLaptops(List<Amazon> laptops)
         {
-            laptop.Id = 0;
+            List<Amazon> addedLaptops = new List<Amazon>();
             try
             {
                 using(SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd= new SqlCommand(sqlAddLaptops, conn))
+                    foreach (Amazon laptop in laptops)
                     {
-                        cmd.Parameters.AddWithValue("@company_name", "amazon");
-                        cmd.Parameters.AddWithValue("@title", laptop.Title);
-                        cmd.Parameters.AddWithValue("@image_url", laptop.ImageUrl);
-                        cmd.Parameters.AddWithValue("@link", laptop.Link);
-                        cmd.Parameters.AddWithValue("@price", laptop.Price);
-                        cmd.Parameters.AddWithValue("@stars", laptop.Stars);
-                        cmd.Parameters.AddWithValue("@reviews", laptop.Reviews);
-                        cmd.Parameters.AddWithValue("@date_pulled", laptop.DatePulled);
+                        using (SqlCommand cmd = new SqlCommand(sqlAddLaptops, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@company_name", "amazon");
+                            cmd.Parameters.AddWithValue("@title", laptop.Title);
+                            cmd.Parameters.AddWithValue("@image_url", laptop.ImageUrl);
+                            cmd.Parameters.AddWithValue("@link", laptop.Link);
+                            cmd.Parameters.AddWithValue("@price", laptop.Price);
+                            cmd.Parameters.AddWithValue("@stars", laptop.Stars);
+                            cmd.Parameters.AddWithValue("@reviews", laptop.Reviews);
+                            cmd.Parameters.AddWithValue("@date_pulled", laptop.DatePulled);
 
-                        laptop.Id = (int)cmd.ExecuteScalar();
+                            laptop.Id = (int)cmd.ExecuteScalar();
+                            addedLaptops.Add(laptop);
+                        }
                     }
                 }
             }
@@ -76,7 +80,7 @@ namespace Laptop_Backend.DAO
             {
                 throw new DaoException("SQL exception occurred", ex);
             }
-            return laptop;
+            return addedLaptops;
         }
         private Amazon MapRowToAmazon(SqlDataReader reader)
         {
