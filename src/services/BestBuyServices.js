@@ -4,14 +4,14 @@ export default {
     listLowLaptops() {
         return axios.get('http://localhost:3000/bestbuy',{      
             headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'https://www.bestbuy.com',
           },
         });
     },
     listPage2() {
         return axios.get('http://localhost:3000/bestbuy2',{
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': 'https://www.bestbuy.com',
             }
         })
     },
