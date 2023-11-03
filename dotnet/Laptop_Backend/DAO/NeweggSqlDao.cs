@@ -93,6 +93,7 @@ namespace Laptop_Backend.DAO
             laptop.Stars = Convert.ToString(reader["stars"]);
             laptop.Reviews = Convert.ToString(reader["reviews"]);
             laptop.DatePulled = Convert.ToDateTime(reader["date_pulled"]);
+            laptop.Price = Convert.ToDecimal(reader["price"]);
 
             return laptop;
         }

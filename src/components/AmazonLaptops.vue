@@ -119,13 +119,13 @@ export default {
                  if(this.filteredArray.length > 0){
                      this.addLaptops();
                   }
-                  this.getLaptops();
-                  console.log(this.laptops);
           }
         }
     },
     async created() {
         await this.fetchLowLaptops();
+        await this.getLaptops();
+        console.log(this.laptops);
     }
 }
 </script>
@@ -137,10 +137,7 @@ export default {
   width: 200px;
   align-items: center;
   margin: 10px;
-  box-shadow: 0 4px 8px 0 #000000;
-  transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.16);
-  border-radius: 5px;
+
 }
 .anchor-card {
   text-decoration: none;

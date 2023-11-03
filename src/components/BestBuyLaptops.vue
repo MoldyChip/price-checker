@@ -2,15 +2,15 @@
     <div class="bestbuy-container">
     <h1>BestBuy's Lowest Gaming Laptops</h1>
     <div class="card-container">
-  <div class="laptop-card" v-for="(laptop, index) in filteredLaptops.slice(0,5)" :key="index">
-    <a class="anchor-card" :href="'https://www.bestbuy.com' + laptop.link">
+  <div class="laptop-card" v-for="(laptop, index) in laptops" :key="index">
+    <a class="anchor-card" :href="laptop.link">
       <div class="card-content">
-    <img class="laptop-image" :src='laptop.image' alt="laptop image" />
+    <img class="laptop-image" :src='laptop.imageUrl' alt="laptop image" />
     <h5 v-text="laptop.title" class="card-title"></h5>
      </div>
      <div class="card-details">
-    <p >{{ laptop.stars }}  {{ laptop.reviews }}</p>
-    <span v-text="'Price ' + laptop.price.slice(0,7)"></span>
+    <p >{{ laptop.stars }}</p>
+    <span v-text="'Price ' + laptop.price"></span>
   </div>
   </a>
   </div>
@@ -24,8 +24,11 @@
   export default {
       data() {
           return {
-              lowLaptops: [],
-              lowLaptops2: [],
+            lowLaptops: [],
+            lowLaptops2: [],
+            filteredArray: [],
+            laptops: [],
+            currentTime: new Date().toJSON()
           }
       },
       computed: {
@@ -36,6 +39,18 @@
         }
       },
       methods: {
+        getLaptops(){
+          bestBuyServices.getLaptops().then((response) => {
+            const laptop1 = response.data;
+            this.laptops.push(...laptop1);
+          })
+        },
+        addLaptops() {
+          if(this.filteredArray.length > 0){
+            console.log(this.filteredArray)
+            bestBuyServices.addLaptops(this.filteredArray)
+          }
+        },
          async fetchLowLaptops() {
             try { 
               const response = await bestBuyServices.listLowLaptops();
@@ -51,7 +66,7 @@
 
                     dataArray.push({
                       'title': title,
-                      'image': image,
+                      'imageUrl': image,
                       'link': link,
                       'price':price,
                       'stars': stars,
@@ -90,18 +105,26 @@
 
                     dataArray.push({
                       'title': title,
-                      'image': image,
+                      'imageUrl': image,
                       'link': link,
                       'price':price,
                       'stars': stars,
+                      'datePulled': new Date().toJSON()
                     })
                   });
                   this.lowLaptops2 = dataArray;
+                  const combinedLaptops = this.lowLaptops.concat(this.lowLaptops2);
+                  this.filteredArray = combinedLaptops.filter(laptop => laptop.price && laptop.imageUrl).slice(0,5);
+                 if(this.filteredArray.length > 0){
+                     this.addLaptops();
+                  }
           }
           }
       },
       async created() {
-          await this.fetchLowLaptops();
+        await this.getLaptops();
+          console.log(this.laptops);
+        await this.fetchLowLaptops();
       }
   }
   </script>
@@ -113,10 +136,6 @@
   width: 200px;
   align-items: center;
   margin: 10px;
-  box-shadow: 0 4px 8px 0 #000000;
-  transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.16);
-  border-radius: 5px;
 }
 .anchor-card {
   text-decoration: none;

@@ -4,18 +4,10 @@ const instance = axios.create({baseURL: 'https://localhost:44388'});
 
 export default {
     listLowLaptops() {
-        return axios.get('http://localhost:3000/amazon',{      
-            headers: {
-            'Access-Control-Allow-Origin': '*', 
-          },
-        })
+        return axios.get('http://localhost:3000/amazon')
     },
     listPage2() {
-        return axios.get('http://localhost:3000/amazon2',{      
-            headers: {
-            'Access-Control-Allow-Origin': '*', 
-          },
-        })
+        return axios.get('http://localhost:3000/amazon2')
     },
     addLaptops(laptops) {
       return instance.post("/amazon", laptops);

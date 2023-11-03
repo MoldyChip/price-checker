@@ -2,7 +2,7 @@
   <div class="newEgg-container">
     <h1>NewEgg's Lowest Gaming Laptops</h1>
     <div class="card-container">
-  <div class="laptop-card" v-for="(laptop, index) in lowLaptops" :key="index">
+  <div class="laptop-card" v-for="(laptop, index) in laptops" :key="index">
     <a class="anchor-card" :href="'https://www.newegg.com' + laptop.link">
       <div class="card-content">
     <img class="laptop-image" :src='laptop.imageUrl' alt="laptop image" />
@@ -29,7 +29,7 @@ export default {
         }
     },
     methods: {
-      getLaptops(){
+      async getLaptops(){
           neweggServices.getLaptops().then((response) => {
             const laptop1 = response.data;
             this.laptops.push(...laptop1);
@@ -84,12 +84,12 @@ export default {
             // Request was *not* made
             console.log("Error getting laptops: make request");
           }}
-          this.getLaptops();
-                console.log(this.laptops);
         }
     },
     async created() {
        await this.fetchLowLaptops();
+       await this.getLaptops();
+          console.log(this.laptops)
     }
 }
 
@@ -102,10 +102,6 @@ export default {
   width: 200px;
   align-items: center;
   margin: 10px;
-  box-shadow: 0 4px 8px 0 #000000;
-  transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.16);
-  border-radius: 5px;
 }
 .anchor-card {
   text-decoration: none;
